@@ -73,6 +73,16 @@ Node *createNodeAndGetData(void) {
     }
 }
 
+/**
+ * Insert a new node into a linked list in ascending order of stockNumber
+ *
+ * This function inserts a new node into a linked list based on the stockNumber
+ * value of the node's book data. The new node is inserted at the appropriate
+ * position to maintain the ascending order of stockNumber values in the list.
+ *
+ * @param listHeadPtr A pointer to the head pointer of the linked list
+ * @param newNodePtr A pointer to the new node to be inserted
+ */
 void insertNode(Node **listHeadPtr, Node *newNodePtr) {
     Node *traversePtr = *listHeadPtr;
     // Empty list case: insert first Node
@@ -100,6 +110,18 @@ void insertNode(Node **listHeadPtr, Node *newNodePtr) {
     }
 }
 
+/**
+ * Deletes a Node from a linked list based on the stock number.
+ *
+ * This function deletes a Node from a linked list, identified by the stock number provided.
+ * If the list is empty, it displays an error message. If the Node is found and deleted,
+ * it displays a success message. If the Node is not found, it displays an error message.
+ *
+ * @param listHeadPtr - A pointer to the head of the linked list.
+ * @param stockNumToDelete - The stock number of the Node to be deleted.
+ *
+ * @return void
+ */
 void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
     Node *traversePtr = *listHeadPtr;
     // Empty list case: ERROR
@@ -133,6 +155,16 @@ void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
     }
 }
 
+/**
+ * Allows the user to select operations on a linked list of books.
+ *
+ * This function prompts the user to enter an integer between 1 and 10 to select an operation on the data.
+ * The user can perform operations such as printing the book list, calculating total revenue, total wholesale cost,
+ * total investment in inventory, total profit, total number of books sold, average profit, adding a book,
+ * deleting a book, and freeing all nodes. The function continues prompting the user until the user selects the option to exit.
+ *
+ * @param listHeadPtr A pointer to the pointer of the head node of the linked list.
+ */
 void getUserOption(Node **listHeadPtr) {
     int option;
     Node *newNodePtr;
@@ -183,6 +215,14 @@ void getUserOption(Node **listHeadPtr) {
         }
     } while (option != 10);
 }
+
+/**
+ * Calculates the total revenue by multiplying the retail price of each book
+ *        with its retail quantity and summing up the result.
+ *
+ * @param listHead A pointer to the head of the linked list of books.
+ * @return The total revenue calculated.
+ */
 double calculateTotalRevenue(const Node *listHead) {
     double totalRevenue = 0.0;
     while (listHead != NULL) {
@@ -191,6 +231,19 @@ double calculateTotalRevenue(const Node *listHead) {
     }
     return totalRevenue;
 }
+/**
+ * Calculates the investment in inventory based on the given list of books.
+ *
+ * This function traverses the linked list of books and calculates the investment
+ * by subtracting the retail quantity from the wholesale quantity and multiplying
+ * it by the wholesale price of each book. The investment is the sum of these
+ * calculations. The function assumes that the list of books is properly initialized
+ * and terminated, i.e., the last node's next pointer is NULL.
+ *
+ * @param listHead Pointer to the head node of the linked list of books.
+ *
+ * @return The total investment in inventory.
+ */
 double calculateInvestmentInInventory(const Node *listHead) {
     double investment = 0.0;
     while (listHead != NULL) {
@@ -199,6 +252,15 @@ double calculateInvestmentInInventory(const Node *listHead) {
     }
     return investment;
 }
+/**
+ * @brief Calculates the total wholesale cost of a linked list of books.
+ *
+ * This function iterates through the given linked list and calculates the total wholesale cost by
+ * multiplying the wholesale price of each book by its wholesale quantity and adding it to the total.
+ *
+ * @param listHead A pointer to the head node of the linked list.
+ * @return The total wholesale cost as a double.
+ */
 double calculateTotalWholesaleCost(const Node *listHead) {
     double totalWholesaleCost = 0.0;
     while (listHead != NULL) {
@@ -207,12 +269,27 @@ double calculateTotalWholesaleCost(const Node *listHead) {
     }
     return totalWholesaleCost;
 }
+/**
+ * Calculates the total profit for a given list of books.
+ *
+ * @param listHead A pointer to the head of the linked list of books
+ * @return The total profit
+ */
 double calculateTotalProfit(const Node *listHead) {
     double totalRevenue = calculateTotalRevenue(listHead);
     double totalWholesaleCost = calculateTotalWholesaleCost(listHead);
     double investmentInInventory = calculateInvestmentInInventory(listHead);
     return (totalRevenue - totalWholesaleCost) + investmentInInventory;
 }
+/**
+ * Calculates the total number of books sold.
+ *
+ * This function iterates through a linked list of Node structures and
+ * sums up the retail quantities of all books in the list.
+ *
+ * @param listHead The head of the linked list.
+ * @return The total number of books sold.
+ */
 int calculateTotalBooksSold(const Node *listHead) {
     int totalBooksSold = 0;
     while (listHead != NULL) {
@@ -221,6 +298,16 @@ int calculateTotalBooksSold(const Node *listHead) {
     }
     return totalBooksSold;
 }
+/**
+ * Calculates the average profit per book sold based on the given list of books.
+ *
+ * @param listHead The head of the linked list of books.
+ * @return The average profit per book sold.
+ *
+ * This function calculates the average profit per book sold by dividing the total profit
+ * by the total number of books sold. If the total number of books sold is zero, it returns 0.0
+ * to avoid division by zero.
+ */
 double calculateAverageProfit(const Node *listHead) {
     double totalProfit = calculateTotalProfit(listHead);
     int totalSales = calculateTotalBooksSold(listHead);
@@ -229,6 +316,14 @@ double calculateAverageProfit(const Node *listHead) {
     }
     return totalProfit / totalSales;
 }
+/**
+ * Prints the titles of the books in a given linked list.
+ *
+ * This function receives a pointer to the head node of a linked list
+ * and prints the titles of all the books in the list.
+ *
+ * @param listHead   A pointer to the head node of the linked list.
+ */
 void printList(const Node *listHead) {
     const Node *traversePtr = listHead;
     printf("\nBook list:\n");
@@ -238,6 +333,13 @@ void printList(const Node *listHead) {
     }
     printf("\n");
 }
+/**
+ * Frees all the nodes in a linked list.
+ *
+ * This function frees the memory of all the nodes in a linked list and sets the list head pointer to NULL.
+ *
+ * @param[in,out] listHeadPtr A pointer to the head pointer of the linked list.
+ */
 void freeAllNodes(Node **listHeadPtr) {
     Node *traversePtr = *listHeadPtr;
     Node *restOfListPtr = *listHeadPtr;
